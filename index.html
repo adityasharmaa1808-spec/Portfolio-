@@ -799,6 +799,15 @@
     .hero-ctas { flex-direction: column; }
     .btn { width: fit-content; }
   }
+
+  /* ── CSS EMAIL (Cloudflare cannot intercept CSS content) ── */
+  .css-email::before {
+    content: 'adityasharmaa1808' '\0040' 'gmail.com';
+    font-size: 0.88rem;
+    color: var(--text);
+    font-weight: 500;
+    font-family: 'DM Sans', sans-serif;
+  }
 </style>
 </head>
 <body>
@@ -1203,7 +1212,7 @@
           <div style="width:38px;height:38px;border:1px solid var(--gold-dim);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;">✉</div>
           <div>
             <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:0.2rem;">Email</div>
-            <div id="emailDisplay" style="font-size:0.88rem;color:var(--text);font-weight:500;"></div>
+            <div class="css-email"></div>
           </div>
         </a>
 
@@ -1261,17 +1270,14 @@
 </footer>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-  // ── BUILD EMAIL DYNAMICALLY (bypass Cloudflare obfuscation) ──
+  // ── BUILD MAILTO LINKS FROM CHAR CODES ──
   (function() {
-    var u = 'adityasharmaa1808';
-    var d = 'gmail.com';
-    var e = u + '\u0040' + d;
-    var el = document.getElementById('emailDisplay');
-    var lk = document.getElementById('emailLink');
+    var c = [97,100,105,116,121,97,115,104,97,114,109,97,97,49,56,48,56,64,103,109,97,105,108,46,99,111,109];
+    var e = c.map(function(n){ return String.fromCharCode(n); }).join('');
+    var lk  = document.getElementById('emailLink');
     var btn = document.getElementById('emailBtn');
-    if (el) el.textContent = e;
-    if (lk) lk.href = 'mailto:' + e;
-    if (btn) btn.href = 'mailto:' + e;
+    if (lk)  lk.setAttribute('href', ['mai','lto:',e].join(''));
+    if (btn) btn.setAttribute('href', ['mai','lto:',e].join(''));
   })();
 
   // ── SCROLL REVEAL ──────────────────────────────
