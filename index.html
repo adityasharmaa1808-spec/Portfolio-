@@ -8,16 +8,16 @@
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
   :root {
-    --bg:       #0a0c10;
-    --bg2:      #0f1219;
-    --bg3:      #141820;
-    --gold:     #c9a84c;
-    --gold-lt:  #e8c97a;
-    --gold-dim: #7a6430;
-    --text:     #e8e4d8;
-    --muted:    #7a7870;
-    --line:     rgba(201,168,76,0.18);
-    --card:     rgba(20,24,32,0.9);
+    --bg:       #ffffff;
+    --bg2:      #fff2e6;
+    --bg3:      #ffe6b3;
+    --gold:     #ffcc00;
+    --gold-lt:  #ffdb4d;
+    --gold-dim: #e6b800;
+    --text:     #1a1400;
+    --muted:    #7a6a30;
+    --line:     rgba(255,204,0,0.35);
+    --card:     rgba(255,242,230,0.95);
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -37,8 +37,8 @@
     content: '';
     position: fixed; inset: 0; z-index: 0;
     background-image:
-      linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+      linear-gradient(rgba(255,204,0,0.12) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,204,0,0.12) 1px, transparent 1px);
     background-size: 60px 60px;
     pointer-events: none;
   }
@@ -49,7 +49,7 @@
     display: flex; align-items: center; justify-content: space-between;
     padding: 0 4rem;
     height: 64px;
-    background: rgba(10,12,16,0.85);
+    background: rgba(255,255,255,0.92);
     backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--line);
   }
@@ -154,9 +154,10 @@
     font-family: 'DM Mono', monospace;
     font-size: 0.65rem;
     letter-spacing: 0.1em;
-    color: var(--gold-dim);
+    color: var(--muted);
     padding: 0.4rem 2rem;
     border-right: 1px solid var(--line);
+    background: var(--bg3);
   }
 
   .ticker-item .up { color: #4caf7a; }
@@ -236,7 +237,7 @@
     transition: background 0.25s;
   }
 
-  .stat-box:hover { background: rgba(201,168,76,0.06); }
+  .stat-box:hover { background: rgba(255,204,0,0.15); }
 
   .stat-num {
     font-family: 'Playfair Display', serif;
@@ -271,7 +272,7 @@
 
   .edu-card:hover {
     border-color: var(--gold-dim);
-    background: rgba(201,168,76,0.04);
+    background: rgba(255,204,0,0.12);
   }
 
   .edu-year {
@@ -326,7 +327,7 @@
   }
 
   .exp-item:first-child { border-top: 1px solid var(--line); }
-  .exp-item:hover { background: rgba(201,168,76,0.03); padding-left: 0.75rem; transition: padding 0.3s, background 0.3s; }
+  .exp-item:hover { background: rgba(255,204,0,0.08); padding-left: 0.75rem; transition: padding 0.3s, background 0.3s; }
 
   .exp-date {
     font-family: 'DM Mono', monospace;
@@ -404,7 +405,7 @@
     transition: transform 0.4s ease;
   }
 
-  .proj-card:hover { background: rgba(201,168,76,0.05); }
+  .proj-card:hover { background: rgba(255,204,0,0.15); }
   .proj-card:hover::after { transform: scaleX(1); }
 
   .proj-icon {
@@ -500,7 +501,7 @@
     transition: background 0.25s;
   }
 
-  .cert-item:hover { background: rgba(201,168,76,0.05); }
+  .cert-item:hover { background: rgba(255,204,0,0.15); }
 
   .cert-name {
     font-family: 'Playfair Display', serif;
@@ -548,7 +549,7 @@
 
   .contact-row:hover {
     border-color: var(--gold-dim);
-    background: rgba(201,168,76,0.05);
+    background: rgba(255,204,0,0.15);
   }
 
   .contact-icon {
@@ -635,7 +636,7 @@
   .form-group input:focus,
   .form-group textarea:focus {
     border-color: var(--gold-dim);
-    background: rgba(201,168,76,0.04);
+    background: rgba(255,204,0,0.12);
   }
 
   .form-row {
@@ -693,8 +694,8 @@
 
   .btn-gold {
     background: var(--gold);
-    color: #0a0c10;
-    font-weight: 500;
+    color: #1a1400;
+    font-weight: 600;
   }
 
   .btn-gold:hover {
@@ -708,7 +709,7 @@
   }
 
   .btn-outline:hover {
-    background: rgba(201,168,76,0.08);
+    background: rgba(255,204,0,0.20);
     border-color: var(--gold);
   }
 
@@ -732,7 +733,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: var(--bg);
+    background: var(--bg3);
   }
 
   footer p {
@@ -1198,20 +1199,17 @@
       <!-- Left column: contact info stacked -->
       <div style="display:flex; flex-direction:column; gap:0.75rem;">
 
-        <a href="mailto:adityasharmaa1808@gmail.com" target="_blank" rel="noopener noreferrer"
-           style="display:flex; align-items:center; gap:1rem; padding:1.25rem 1.5rem; background:var(--bg3); border:1px solid var(--line); text-decoration:none; transition:border-color 0.25s, background 0.25s;"
-           onmouseover="this.style.borderColor='var(--gold-dim)';this.style.background='rgba(201,168,76,0.05)'"
-           onmouseout="this.style.borderColor='var(--line)';this.style.background='var(--bg3)'">
+        <a href="/cdn-cgi/l/email-protection#1677727f626f77657e77647b7777272e262e56717b777f7a3875797b" target="_blank" rel="noopener noreferrer" style="display:flex; align-items:center; gap:1rem; padding:1.25rem 1.5rem; background:var(--bg3); border:1px solid var(--line); text-decoration:none; transition:border-color 0.25s, background 0.25s;" onmouseover="this.style.borderColor='var(--gold-dim)';this.style.background='rgba(255,204,0,0.15)'" onmouseout="this.style.borderColor='var(--line)';this.style.background='var(--bg3)'">
           <div style="width:38px;height:38px;border:1px solid var(--gold-dim);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;">✉</div>
           <div>
             <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:0.2rem;">Email</div>
-            <div style="font-size:0.88rem;color:var(--text);font-weight:500;">adityasharmaa1808@gmail.com</div>
+            <div style="font-size:0.88rem;color:var(--text);font-weight:500;"><span class="__cf_email__" data-cfemail="a5c4c1ccd1dcc4d6cdc4d7c8c4c4949d959de5c2c8c4ccc98bc6cac8">[email&#160;protected]</span></div>
           </div>
         </a>
 
         <a href="tel:+919798967084"
            style="display:flex; align-items:center; gap:1rem; padding:1.25rem 1.5rem; background:var(--bg3); border:1px solid var(--line); text-decoration:none; transition:border-color 0.25s, background 0.25s;"
-           onmouseover="this.style.borderColor='var(--gold-dim)';this.style.background='rgba(201,168,76,0.05)'"
+           onmouseover="this.style.borderColor='var(--gold-dim)';this.style.background='rgba(255,204,0,0.15)'"
            onmouseout="this.style.borderColor='var(--line)';this.style.background='var(--bg3)'">
           <div style="width:38px;height:38px;border:1px solid var(--gold-dim);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;">📞</div>
           <div>
@@ -1222,7 +1220,7 @@
 
         <a href="https://www.linkedin.com/in/aditya-sharma-01b422279/" target="_blank" rel="noopener noreferrer"
            style="display:flex; align-items:center; gap:1rem; padding:1.25rem 1.5rem; background:var(--bg3); border:1px solid var(--line); text-decoration:none; transition:border-color 0.25s, background 0.25s;"
-           onmouseover="this.style.borderColor='var(--gold-dim)';this.style.background='rgba(201,168,76,0.05)'"
+           onmouseover="this.style.borderColor='var(--gold-dim)';this.style.background='rgba(255,204,0,0.15)'"
            onmouseout="this.style.borderColor='var(--line)';this.style.background='var(--bg3)'">
           <div style="width:38px;height:38px;border:1px solid var(--gold-dim);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;font-family:'DM Mono',monospace;font-weight:700;color:var(--gold);font-size:0.85rem;">in</div>
           <div>
@@ -1233,7 +1231,7 @@
 
         <a href="https://adityasharmaa1808.substack.com/?utm_campaign=profile_chips" target="_blank" rel="noopener noreferrer"
            style="display:flex; align-items:center; gap:1rem; padding:1.25rem 1.5rem; background:var(--bg3); border:1px solid var(--line); text-decoration:none; transition:border-color 0.25s, background 0.25s;"
-           onmouseover="this.style.borderColor='var(--gold-dim)';this.style.background='rgba(201,168,76,0.05)'"
+           onmouseover="this.style.borderColor='var(--gold-dim)';this.style.background='rgba(255,204,0,0.15)'"
            onmouseout="this.style.borderColor='var(--line)';this.style.background='var(--bg3)'">
           <div style="width:38px;height:38px;border:1px solid var(--gold-dim);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;">✍</div>
           <div>
@@ -1245,10 +1243,10 @@
       </div>
 
       <!-- Right column: CTA -->
-      <div style="border:1px solid var(--gold-dim); background:rgba(201,168,76,0.04); padding:2.5rem; display:flex; flex-direction:column; justify-content:center; gap:1.5rem;">
+      <div style="border:1px solid var(--gold-dim); background:rgba(255,204,0,0.12); padding:2.5rem; display:flex; flex-direction:column; justify-content:center; gap:1.5rem;">
         <div style="font-family:'Playfair Display',serif; font-size:1.8rem; color:var(--text); line-height:1.2;">Ready to work<br/><span style="color:var(--gold);">together?</span></div>
         <p style="font-size:0.88rem; color:var(--muted); line-height:1.75;">Whether you're looking for a driven research analyst, want to collaborate on a finance project, or simply want to connect — I'd love to hear from you.</p>
-        <a href="mailto:adityasharmaa1808@gmail.com" class="btn btn-gold" target="_blank" rel="noopener noreferrer" style="width:fit-content;">Email Me ↗</a>
+        <a href="/cdn-cgi/l/email-protection#7d1c191409041c0e151c0f101c1c4c454d453d1a101c1411531e1210" class="btn btn-gold" target="_blank" rel="noopener noreferrer" style="width:fit-content;">Email Me ↗</a>
       </div>
 
     </div>
@@ -1262,7 +1260,7 @@
   <p>Jamshedpur, Jharkhand, India &nbsp;·&nbsp; All Rights Reserved</p>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // ── SCROLL REVEAL ──────────────────────────────
   const revealEls = document.querySelectorAll('.reveal');
   const revealObserver = new IntersectionObserver((entries) => {
@@ -1320,9 +1318,4 @@
       };
 
       try {
-        await emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams);
-        formStatus.textContent = '✓ Message sent! I will get back to you soon.';
-        formStatus.className   = 'form-status success';
-        contactForm.reset();
-      } catch (err) {
-        formStatus.textContent = '✗ Something went wrong. Please email me directl
+        await emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams
