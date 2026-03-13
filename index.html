@@ -800,6 +800,114 @@
     .btn { width: fit-content; }
   }
 
+  /* ── LATEST POSTS ────────────────────────────── */
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .post-card {
+    background: var(--bg3);
+    border: 1px solid var(--line);
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    text-decoration: none;
+    transition: border-color 0.25s, transform 0.25s, background 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .post-card::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--gold);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.35s ease;
+  }
+
+  .post-card:hover {
+    border-color: var(--gold-dim);
+    background: #fff8e1;
+    transform: translateY(-3px);
+  }
+
+  .post-card:hover::after { transform: scaleX(1); }
+
+  .post-source {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+
+  .post-source::before {
+    content: '';
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+
+  .post-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.4;
+  }
+
+  .post-desc {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.65;
+    flex: 1;
+  }
+
+  .post-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+
+  .post-arrow {
+    font-size: 0.8rem;
+    color: var(--gold-dim);
+    align-self: flex-end;
+    margin-top: 0.25rem;
+  }
+
+  .posts-loading {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    padding: 2rem 0;
+  }
+
+  .linkedin-card {
+    margin-top: 1.5rem;
+    border: 1px solid var(--line);
+    background: var(--bg3);
+    padding: 2rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 900px) {
+    .posts-grid { grid-template-columns: 1fr; }
+  }
+
   /* ── CSS EMAIL (Cloudflare cannot intercept CSS content) ── */
   .css-email::before {
     content: 'adityasharmaa1808' '\0040' 'gmail.com';
@@ -822,6 +930,7 @@
     <li><a href="#projects">Projects</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#certifications">Certifications</a></li>
+    <li><a href="#latest">Latest Posts</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
@@ -1263,6 +1372,38 @@
   </div>
 </section>
 
+<!-- ── LATEST POSTS ────────────────────────────────── -->
+<section id="latest" style="background:var(--bg2);">
+  <div class="section-inner">
+    <div class="section-label">08 / Latest Posts</div>
+    <h2 class="section-title">What I'm Writing</h2>
+    <p style="font-size:0.95rem; color:var(--muted); max-width:560px; line-height:1.8; margin-bottom:0.5rem;">
+      My latest research insights and finance commentary from Substack.
+    </p>
+
+    <!-- Substack Posts -->
+    <div style="font-family:'DM Mono',monospace; font-size:0.62rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold-dim); margin:2rem 0 1rem;">
+      ✍ &nbsp;Substack — Latest Articles
+    </div>
+    <div class="posts-grid" id="substackPosts">
+      <div class="posts-loading">Fetching latest posts...</div>
+    </div>
+
+    <!-- LinkedIn card -->
+    <div class="linkedin-card">
+      <div>
+        <div style="font-family:'DM Mono',monospace; font-size:0.62rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold-dim); margin-bottom:0.5rem;">in &nbsp;LinkedIn</div>
+        <div style="font-family:'Playfair Display',serif; font-size:1.2rem; color:var(--text); margin-bottom:0.35rem;">Follow my professional updates</div>
+        <div style="font-size:0.84rem; color:var(--muted);">Market commentary, achievements, and finance insights posted regularly.</div>
+      </div>
+      <a href="https://www.linkedin.com/in/aditya-sharma-01b422279/" target="_blank" rel="noopener noreferrer" class="btn btn-gold">
+        View LinkedIn ↗
+      </a>
+    </div>
+
+  </div>
+</section>
+
 <!-- ── FOOTER ──────────────────────────────────────── -->
 <footer>
   <p>© 2025 Aditya Sharma &nbsp;·&nbsp; BBA Capital Markets</p>
@@ -1278,6 +1419,36 @@
     var btn = document.getElementById('emailBtn');
     if (lk)  lk.setAttribute('href', ['mai','lto:',e].join(''));
     if (btn) btn.setAttribute('href', ['mai','lto:',e].join(''));
+  })();
+
+  // ── FETCH SUBSTACK POSTS VIA RSS ───────────────
+  (function() {
+    var rss = 'https://adityasharmaa1808.substack.com/feed';
+    var api = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rss) + '&count=3';
+    var container = document.getElementById('substackPosts');
+    if (!container) return;
+
+    fetch(api)
+      .then(function(r){ return r.json(); })
+      .then(function(data) {
+        if (!data.items || data.items.length === 0) throw new Error('No posts');
+        var html = '';
+        data.items.forEach(function(item) {
+          var date = new Date(item.pubDate).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
+          var desc = item.description ? item.description.replace(/<[^>]+>/g,'').slice(0,100) + '...' : '';
+          html += '<a class="post-card" href="' + item.link + '" target="_blank" rel="noopener noreferrer">'
+            + '<div class="post-source">Substack</div>'
+            + '<div class="post-title">' + item.title + '</div>'
+            + '<div class="post-desc">' + desc + '</div>'
+            + '<div class="post-date">' + date + '</div>'
+            + '<div class="post-arrow">Read more ↗</div>'
+            + '</a>';
+        });
+        container.innerHTML = html;
+      })
+      .catch(function() {
+        container.innerHTML = '<div class="posts-loading">Could not load posts. <a href="https://adityasharmaa1808.substack.com" target="_blank" style="color:var(--gold-dim);">Visit Substack directly ↗</a></div>';
+      });
   })();
 
   // ── SCROLL REVEAL ──────────────────────────────
