@@ -1421,34 +1421,78 @@
     if (btn) btn.setAttribute('href', ['mai','lto:',e].join(''));
   })();
 
-  // ── FETCH SUBSTACK POSTS VIA RSS ───────────────
+  // ── FETCH SUBSTACK POSTS via CORS proxy + RSS ──
   (function() {
-    var rss = 'https://adityasharmaa1808.substack.com/feed';
-    var api = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rss) + '&count=3';
     var container = document.getElementById('substackPosts');
     if (!container) return;
 
-    fetch(api)
-      .then(function(r){ return r.json(); })
-      .then(function(data) {
-        if (!data.items || data.items.length === 0) throw new Error('No posts');
-        var html = '';
-        data.items.forEach(function(item) {
-          var date = new Date(item.pubDate).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
-          var desc = item.description ? item.description.replace(/<[^>]+>/g,'').slice(0,100) + '...' : '';
-          html += '<a class="post-card" href="' + item.link + '" target="_blank" rel="noopener noreferrer">'
-            + '<div class="post-source">Substack</div>'
-            + '<div class="post-title">' + item.title + '</div>'
-            + '<div class="post-desc">' + desc + '</div>'
-            + '<div class="post-date">' + date + '</div>'
-            + '<div class="post-arrow">Read more ↗</div>'
-            + '</a>';
-        });
-        container.innerHTML = html;
-      })
-      .catch(function() {
-        container.innerHTML = '<div class="posts-loading">Could not load posts. <a href="https://adityasharmaa1808.substack.com" target="_blank" style="color:var(--gold-dim);">Visit Substack directly ↗</a></div>';
+    var rss     = 'https://adityasharmaa1808.substack.com/feed';
+    var proxies = [
+      'https://corsproxy.io/?' + encodeURIComponent(rss),
+      'https://api.allorigins.win/raw?url=' + encodeURIComponent(rss),
+      'https://thingproxy.freeboard.io/fetch/' + rss
+    ];
+
+    function parseAndRender(text) {
+      var parser = new DOMParser();
+      var xml    = parser.parseFromString(text, 'text/xml');
+      var items  = Array.from(xml.querySelectorAll('item')).slice(0, 3);
+      if (items.length === 0) throw new Error('No items');
+
+      var html = '';
+      items.forEach(function(item) {
+        var title   = item.querySelector('title')       ? item.querySelector('title').textContent       : 'Untitled';
+        var link    = item.querySelector('link')        ? item.querySelector('link').textContent        : '#';
+        var rawDesc = item.querySelector('description') ? item.querySelector('description').textContent : '';
+        var desc    = rawDesc.replace(/<[^>]+>/g,'').trim().slice(0, 110) + '...';
+        var pubDate = item.querySelector('pubDate')     ? item.querySelector('pubDate').textContent     : '';
+        var date    = pubDate ? new Date(pubDate).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' }) : '';
+
+        html += '<a class="post-card" href="' + link + '" target="_blank" rel="noopener noreferrer">'
+          + '<div class="post-source">Substack</div>'
+          + '<div class="post-title">' + title + '</div>'
+          + '<div class="post-desc">' + desc + '</div>'
+          + (date ? '<div class="post-date">' + date + '</div>' : '')
+          + '<div class="post-arrow">Read more ↗</div>'
+          + '</a>';
       });
+      container.innerHTML = html;
+    }
+
+    function tryProxy(index) {
+      if (index >= proxies.length) {
+        showFallback();
+        return;
+      }
+      fetch(proxies[index])
+        .then(function(r) { return r.text(); })
+        .then(function(text) { parseAndRender(text); })
+        .catch(function() { tryProxy(index + 1); });
+    }
+
+    function showFallback() {
+      container.innerHTML = ''
+        + '<a class="post-card" href="https://adityasharmaa1808.substack.com" target="_blank" rel="noopener noreferrer">'
+        + '<div class="post-source">Substack</div>'
+        + '<div class="post-title">Latest Research &amp; Market Insights</div>'
+        + '<div class="post-desc">Read my latest articles on equity research, capital markets, and financial analysis.</div>'
+        + '<div class="post-arrow">Visit Substack ↗</div>'
+        + '</a>'
+        + '<a class="post-card" href="https://adityasharmaa1808.substack.com/archive" target="_blank" rel="noopener noreferrer">'
+        + '<div class="post-source">Substack</div>'
+        + '<div class="post-title">Browse Full Archive</div>'
+        + '<div class="post-desc">Explore all past articles covering valuation, portfolio management, and sector analysis.</div>'
+        + '<div class="post-arrow">View Archive ↗</div>'
+        + '</a>'
+        + '<a class="post-card" href="https://adityasharmaa1808.substack.com" target="_blank" rel="noopener noreferrer">'
+        + '<div class="post-source">Substack</div>'
+        + '<div class="post-title">Subscribe for Updates</div>'
+        + '<div class="post-desc">Get notified whenever I publish new research or market commentary directly in your inbox.</div>'
+        + '<div class="post-arrow">Subscribe ↗</div>'
+        + '</a>';
+    }
+
+    tryProxy(0);
   })();
 
   // ── SCROLL REVEAL ──────────────────────────────
